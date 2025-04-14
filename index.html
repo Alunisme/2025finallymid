@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>113下學期程式設計期中報告</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+  </head>
+
+  <body>
+    <!-- 新增選單容器 -->
+    <div class="menu-container">
+      <ul class="menu">
+        <li><a href="#" id="about-trigger">自我介紹</a></li>
+        <li><a href="#" id="home-trigger">首頁</a></li>
+        <li><a href="#" id="book-trigger">筆記</a></li>
+        <li>
+          <a href="#portfolio">作品集</a>
+          <!-- 子選單 -->
+          <ul class="submenu">
+            <li><a href="#" class="modal-trigger" data-url="https://alunisme.github.io/20250303/">下拉選單運用</a></li>
+            <li><a href="#" class="modal-trigger" data-url="https://alunisme.github.io/test20250310/">數學計算測驗</a></li>
+            <li><a href="#" class="modal-trigger" data-url="https://alunisme.github.io/20250317/">教科系網動畫</a></li>
+            <li><a href="#" class="modal-trigger" data-url="https://alunisme.github.io/20250324/">按鈕人物互動</a></li>
+            <li><a href="#" class="modal-trigger" data-url="https://alunisme.github.io/20250407/">下滑選單應用</a></li>
+          </ul>
+        </li>
+        <li><a href="#" id="quiz-trigger">測驗卷</a></li>
+        <li><a href="#" id="video-trigger">教學影片</a></li>
+      </ul>
+    </div>
+
+    <!-- 彈出視窗 -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <iframe id="modal-iframe" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+
+    <!-- 自我介紹的彈出視窗 -->
+    <div id="about-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <p>你好，我是伍志倫，這個是我的期中報告</p>
+        <p>接下來會介紹我的網站內容</p>
+        <p>## 在點開每個視窗後右上角有叉叉可以關閉視窗或點擊視窗外部</p>
+        <p>## 按下首頁可以遊玩反應力測驗遊戲(記住重玩"R"要為大寫)</p>
+        <p>## 要記住，網站的內容會出現在測驗卷的題目中喔!!!</p>
+      </div>
+    </div>
+
+    <!-- 新增影片彈窗容器，預設隱藏 -->
+    <div id="video-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <iframe 
+          src="https://drive.google.com/file/d/1bQHVB4r6HLFvYM6NVpZKgOc8V-6hyFqF/preview" 
+          width="100%" 
+          height="100%" 
+          allow="autoplay">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- 新增首頁彈窗容器，預設隱藏 -->
+    <div id="home-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <iframe 
+          src="https://alunisme.github.io/Alungame/" 
+          width="100%" 
+          height="100%" 
+          frameborder="0">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- 新增筆記彈窗容器，預設隱藏 -->
+    <div id="book-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <iframe 
+          src="" 
+          width="100%" 
+          height="100%" 
+          frameborder="0">
+        </iframe>
+      </div>
+    </div>
+
+    <script src="sketch.js"></script>
+    <script src="script.js"></script>
+    <script>
+      // 控制影片彈窗的顯示與隱藏
+      document.getElementById('video-trigger').addEventListener('click', function (e) {
+        e.preventDefault(); // 防止預設行為
+        const videoModal = document.getElementById('video-modal');
+        videoModal.style.display = 'flex'; // 顯示影片彈窗
+      });
+
+      document.querySelector('.close-button').addEventListener('click', function () {
+        const videoModal = document.getElementById('video-modal');
+        videoModal.style.display = 'none'; // 隱藏影片彈窗
+      });
+
+      window.addEventListener('click', function (e) {
+        const videoModal = document.getElementById('video-modal');
+        if (e.target === videoModal) {
+          videoModal.style.display = 'none'; // 點擊彈窗外部隱藏彈窗
+        }
+      });
+
+      // 控制首頁彈窗的顯示與隱藏，並設定 iframe 的 src
+      document.getElementById('home-trigger').addEventListener('click', function (e) {
+        e.preventDefault(); // 防止預設行為
+        const homeModal = document.getElementById('home-modal');
+        const iframe = homeModal.querySelector('iframe');
+        iframe.src = "https://alunisme.github.io/2025reflectiongame/"; // 設定新的網址
+        homeModal.style.display = 'flex'; // 顯示首頁彈窗
+      });
+
+      document.querySelector('#home-modal .close-button').addEventListener('click', function () {
+        const homeModal = document.getElementById('home-modal');
+        const iframe = homeModal.querySelector('iframe');
+        iframe.src = ""; // 清空 iframe 的 src，避免背景播放
+        homeModal.style.display = 'none'; // 隱藏首頁彈窗
+      });
+
+      window.addEventListener('click', function (e) {
+        const homeModal = document.getElementById('home-modal');
+        if (e.target === homeModal) {
+          const iframe = homeModal.querySelector('iframe');
+          iframe.src = ""; // 清空 iframe 的 src，避免背景播放
+          homeModal.style.display = 'none'; // 點擊彈窗外部隱藏彈窗
+        }
+      });
+    </script>
+
+    <style>
+      /* 彈窗背景樣式 */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* 彈窗內容樣式（通用） */
+      .modal-content {
+        background-color: #fff;
+        width: calc(100% - 200px); /* 預設距離視窗左右各 100px */
+        height: calc(100% - 200px); /* 預設距離視窗上下各 100px */
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 特定於影片彈窗的樣式 */
+      #video-modal .modal-content {
+        max-width: 800px; /* 最大寬度 */
+        max-height: 450px; /* 最大高度 */
+      }
+
+      /* 特定於其他彈窗的樣式 */
+      #modal .modal-content,
+      #about-modal .modal-content {
+        width: calc(100% - 100px); /* 距離視窗左右各 50px */
+        height: calc(100% - 100px); /* 距離視窗上下各 50px */
+      }
+
+      /* 關閉按鈕樣式 */
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+      }
+
+      .close-button:hover {
+        color: #000;
+      }
+    </style>
+  </body>
+</html>
